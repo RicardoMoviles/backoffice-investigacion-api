@@ -1,21 +1,42 @@
+//const ProjectModel = require('./model/proyectoModel')
 require('./infraestructura/connectionDB')
-const ProjectModel = require('./model/proyectoModel')
+const typeDefs = require('./typeDef')
+const resolvers = require('./resolver')
+
 const express = require('express')
+const { ApolloServer} = require('apollo-server-express')
 
-const api = express();
 
+
+
+const iniciarServidor = async () => {
+    const api = express();
+    const apollo = new ApolloServer(
+        { 
+            typeDefs, 
+            resolvers 
+        });
+    await apollo.start()
+    apollo.applyMiddleware({app:api})
+    api.listen('9092', () => console.log('Inicio server'))
+}
+
+iniciarServidor()
+
+/*
 const projectAguas = new ProjectModel({
-    nombre: 'Proyecto de aguas residuales',
-    lider: 'Andres Delgado',
-    facultad: 'Ingenieria X'
+    nombre: 'Segundo proyecto',
+    lider: 'Santiago Bustamante',
+    facultad: 'Medicina'
 })
 
-/*projectAguas.save( (err, document) => {
+projectAguas.save( (err, document) => {
     if(err){
         console.log(err);
         return;
     }
-})*/
+})
+
 
 const consultaProyectos = async () => {
     return await ProjectModel.find({})
@@ -26,8 +47,7 @@ api.get('/proyectos', (request,response) => {
         response.json({ projects: resultado })
     })
     
-})
-api.listen('9092')
+})*/
 
 
 
