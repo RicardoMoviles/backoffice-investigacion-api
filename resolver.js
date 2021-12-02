@@ -1,3 +1,6 @@
+const { buscarUsuarioPorIdentificacion,
+    listarEstudiantes,
+    usuarios } = require('./service/usuario.service')
 const Project = require('./model/proyectoModel')
 const User = require('./model/usuarioModel')
 const aes256 = require('aes256');
@@ -30,9 +33,9 @@ const listUsuarios = [
 
 const resolvers = {
     Query: {
-        usuarios: () => listUsuarios,
-        usuario: ( parent,args, context, info) =>listUsuarios.find(user => user.identificacion === args.identificacion),
-        //getEstudiantes: async (perf) => await listUsuarios.find({}, {perfil:perf}),
+        usuarios: () => usuarios(),
+        usuario: ( parent,args, context, info) =>buscarUsuarioPorIdentificacion(args.identificacion),
+        getEstudiantes: async ( parent,args, context, info) => listarEstudiantes(args.perfil),
         proyectos: async () =>  await Project.find({}),
         getProject: async ( parent,args, context, info) => await Project.findOne({nombre:args.nombre})
     },

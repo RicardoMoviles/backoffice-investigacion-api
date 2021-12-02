@@ -20,6 +20,7 @@ const typeDefs = gql`
     type Query{
         usuarios: [Usuario]
         usuario( identificacion: Int ): Usuario
+        getEstudiantes( perfil: String ): [Usuario]
         proyectos: [Proyecto]
         getProject( nombre: String ): Proyecto
     }
@@ -34,6 +35,4 @@ const typeDefs = gql`
         createUser( user: UserInput ):String
     }
 ` 
-
 module.exports = typeDefs
-//getEstudiantes( perfil: String ): [Usuario]
