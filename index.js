@@ -18,6 +18,9 @@ const iniciarServidor = async () => {
         });
     await apollo.start()
     apollo.applyMiddleware({app:api})
+    api.use((request,response) =>{
+        response.send('Hola')
+    })
     api.listen('9092', () => console.log('Inicio server'))
 }
 
