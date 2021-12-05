@@ -40,14 +40,22 @@ const resolvers = {
         getProject: async ( parent,args, context, info) => await Project.findOne({nombre:args.nombre})
     },
     Mutation:{
-        createUser: async ( parent,args, context, info) =>{
+        createUser: ( parent,args, context, info) =>{
             const { clave } = args.user;
             const nuevoUsuario = new User(args.user);
             const encryptedPlainText = aes256.encrypt(key, clave);
             nuevoUsuario.clave = encryptedPlainText
-            await nuevoUsuario.save();
-            return "Usuario creado"
+            return nuevoUsuario.save()
+            .then(u => "ususario creado")
+            .catch(err => "fallo la creacion")
+        },
+        activeUser: (parent, args, context, info) => {
+
+            User.updateOne({identificacion: args.identificacion}, {estado:"Activo"})
+            .then(u => "ususario activo")
+            .catch(err => "fallo la activacion")
         }
+
     }
 }
 
