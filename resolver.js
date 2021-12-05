@@ -50,10 +50,14 @@ const resolvers = {
             .catch(err => "fallo la creacion")
         },
         activeUser: (parent, args, context, info) => {
-
-            User.updateOne({identificacion: args.identificacion}, {estado:"Activo"})
-            .then(u => "ususario activo")
-            .catch(err => "fallo la activacion")
+            return User.updateOne({identificacion: args.identificacion}, {estado:"Activo"})
+                .then(u => "ususario activo")
+                .catch(err => "fallo la activacion")
+        },
+        deleteUser: (parent, args, context, info) => {
+            User.deleteOne({identificacion:args.ident})
+                .then(u => "ususario eliminado")
+                .catch(err => "fallo la eliminacion")
         }
 
     }
