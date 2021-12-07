@@ -55,10 +55,34 @@ const resolvers = {
                 .catch(err => "fallo la activacion")
         },
         deleteUser: (parent, args, context, info) => {
-            User.deleteOne({identificacion:args.ident})
+            return User.deleteOne({ident:args.ident})
                 .then(u => "ususario eliminado")
                 .catch(err => "fallo la eliminacion")
+        },
+        deleteProject: (parent, args, context, info) => {
+            return Project-updateOne({nombreProyecto:args.nombre})
+                .then(u => "Proyecto eliminado")
+                .catch(err => "fallo la eliminacion")
+        },
+        insertUserToProject: async (parent, args, context, info) => {
+            const user = await User.findOne({identificacion: args.identificacion})
+            if (user && user.estado === "Activo"){
+                const project = await Project.findOne({nombre: args.nombreProyecto})
+                if(project && project.activo){
+                    if(project.integrantes.find(i => i == user.identificacion)){
+                        return "El usuario ya pertenece al proyecto indicado"
+                    }else{
+                        await Project.updateOne({ nombre: args.nombreProyecto}, { $push: {integrantes: user.identificacion} })
+                        return "Usuario adicionado correctamente"
+                    }
+                }else{
+                    return "Proyecto no valido para adicionar un integrante, consulte al administrador"
+                }
+            }else{
+                return "Usuario no valido"
+            }
         }
+
 
     }
 }

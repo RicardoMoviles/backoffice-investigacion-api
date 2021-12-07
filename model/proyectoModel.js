@@ -4,7 +4,8 @@ const { Schema, model } = require('mongoose');
 const project = new Schema({
     nombre : {
         type:String,
-        required: true
+        required: true,
+        unique: true
     },
     lider : String,
     facultad: String,
@@ -15,7 +16,9 @@ const project = new Schema({
     activo: {
         type: Boolean,
         default: true
-    }
+    },
+    integrantes: [Number]
+
 })
 
 module.exports = model('proyecto', project)
