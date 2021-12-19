@@ -2,11 +2,10 @@
 require('./infraestructura/connectionDB')
 const typeDefs = require('./typeDef')
 const resolvers = require('./resolver')
+const authRoute = require('./routes/auth.routes')
 
 const express = require('express')
 const { ApolloServer} = require('apollo-server-express')
-
-
 
 
 const iniciarServidor = async () => {
@@ -18,9 +17,11 @@ const iniciarServidor = async () => {
         });
     await apollo.start()
     apollo.applyMiddleware({app:api})
-    api.use((request,response) =>{
+    /*api.use((request,response) =>{
         response.send('Hola')
-    })
+    })*/
+    api.use(express.json())  //PARA TRABAJAR CON JSON
+    api.use('/api', authRoute)
     api.listen('9092', () => console.log('Inicio server'))
 }
 

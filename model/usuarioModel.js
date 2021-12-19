@@ -19,6 +19,10 @@ const usuario = new Schema({
         type: String,
         default: 'Inactivo'
     },
+    email:{
+        type: String,
+        unique:true
+    },
     clave: {
         type: String,
         required: true

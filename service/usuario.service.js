@@ -20,7 +20,7 @@ const activeUser = (identificacion) => {
 }
 
 const deleteUser = (ident) => {
-    return User.deleteOne({ident})
+    return User.deleteOne({identificacion: ident})
         .then(u => "ususario eliminado")
         .catch(err => "fallo la eliminacion")
 }
